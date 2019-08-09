@@ -24,15 +24,17 @@
         // assigning values to variables from input boxes;
         var newReservation = {
             name = $('#NameInputBox').val().trim(),
-            reservation = $('#ReservationInputBox').val().trim(),
+            number = $('#NumberInputBox').val().trim(),
             email = $('#EmailInputBox').val().trim(),
             id = $('#IdInputBox').val().trim()
         }
 
-    .post("__dirname/index.html", newReservation) 
-        // alert and log to show that process was successful;
-        alert("Reservations Successful!");
-        console.log (newReservation);
+    app.post("/view.html", newReservation) {
+         // alert and log to show that process was successful;
+         alert("Reservations Successful!");
+         console.log (newReservation);
+    }
+       
 
 
 
@@ -50,16 +52,45 @@
     // -----------      a function for handling requests
 
     function handleRequest(req, res) {
+        var path = req.url;
 
-    // FS package to read our index.html file
-    fs.readFile(__dirname + "index.html", function(err, data) {
-    if (err) throw err;
-    // We then respond to the client with the HTML page by specifically telling the browser that we are delivering an html file.
-    res.writeHead(200, { "Content-Type": "text/html" });
-    res.end(data);
-    });
+        // FS package to read our index.html file
+        fs.readFile(__dirname + "index.html", function(err, data) {
+        if (err) throw err;
+        // We then respond to the client with the HTML page by specifically telling the browser that we are delivering an html file.
+        res.writeHead(200, { "Content-Type": "text/html" });
+        res.end(data);
+        });
     }
 
+
+    function handleRequest(req, res) {
+        // Saving the request data as a variable
+        var requestData = "";
+        // When the server receives data...
+        req.on("data", function(data) {
+        // Add it to requestData.
+        requestData += data;
+        });
+
+
+        // When the request has ended...
+        req.on("end", function() {
+
+        // Log (server-side) the request method, as well as the data received!
+        console.log(, req.method, "with the data:\n", requestData);
+        res.end();
+        });
+
+        // When the request has ended...
+        req.on("end", function() {
+            res.writeHead(200, { "Content-Type": "text/html" });
+            res.end(myHTML);
+        });
+
+    }
+
+});
 
 
 </script>
