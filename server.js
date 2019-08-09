@@ -23,7 +23,6 @@ app.get("/api/waitlist", function(req, res){
 // [0] index of array will be the status object
 // if user is added to table, response[0].status == "table"
 // else response[0].status == "wait"
-// line 41
  app.post("/api/tables", function(req,res){
    var newCustomer = req.body;
    var tableOrwait;
@@ -48,6 +47,18 @@ app.get("/api/waitlist", function(req, res){
    res.json([{status: success}]);
  });
 
+//--------------------------------------------
+app.get("/", function(req, res) {
+   res.sendFile(path.join(__dirname, "home.html"));
+ });
+ 
+ app.get("/reserve", function(req, res) {
+   res.sendFile(path.join(__dirname, "make.html"));
+ });
+
+ app.get("/tables", function(req, res) {
+   res.sendFile(path.join(__dirname, "view.html"));
+ });
  app.listen(PORT, function() {
    console.log("App listening on PORT " + PORT);
  });
