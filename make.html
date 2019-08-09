@@ -4,57 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Make Reservations</title>
 </head>
 
 <body>
-    
+    <form>
+        First name:<br>
+        <input type="text" id="NameInputBox">
+        <br>
+        Last name:<br>
+        <input type="text" id="ReservationInputBox">
+        <br><br>
+        <button id="SubmitBtn">
+      </form>  
 
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
 
-
-
 // -----------       giving the submit button a click function;
+
 
 $('#SubmitBtn').on('click', function(event) {
     event.preventDefault();
    
     // assigning values to variables from input boxes;
     var newReservation = {
-        name = $('#NameInputBox').val().trim(),
-        reservation = $('#ReservationInputBox').val().trim(),
-        email = $('#EmailInputBox').val().trim(),
-        id = $('#IdInputBox').val().trim()
+        name: $("#NameInputBox").val().trim(),
+        reservation: $("#ReservationInputBox").val().trim(),
+        //email: $('#EmailInputBox').val().trim(),
+        //id: $('#IdInputBox').val().trim()
     }
 
     // alert and log to show that process was successful;
-    alert("Reservations Successful!");
-    console.log (newReservation);
-
-
+    //alert("Reservations Successful!");
 
 
 //  -------------       server POST
+console.log (newReservation);
+    $.post("/api/tables", newReservation, 
+    function(data, response){
+        console.log("Data: " + data);
+        console.log("Data: " + data[0].status == "table");
+        console.log("response: " + response);
+    });
 
-var http = require("http");
-var fs = require('fs');
-var PORT = process.env.PORT || 8080;
-var server = http.createServer(handleRequest);
-
-// -----------      a function for handling requests
-
-
-function handleRequest(req, res) {
-
-// FS package to read our index.html file
-fs.readFile(__dirname + "index.html", function(err, data) {
-  if (err) throw err;
-  // We then respond to the client with the HTML page by specifically telling the browser that we are delivering an html file.
-  res.writeHead(200, { "Content-Type": "text/html" });
-  res.end(data);
 });
-}
 
 
 
